@@ -298,6 +298,11 @@ class Resource
         $metadata = $this->app->getResourceMetadata($this);
         $allowedMethods = array();
         foreach ($metadata['methods'] as $method => $properties) {
+            if (empty($properties['method'])) {
+                /* Internal methods (like __toString) should be ignored! */
+                continue;
+            }
+
             foreach ($properties['method'] as $method) {
                 $allowedMethods[] = strtoupper($method[0]);
             }
